@@ -28,9 +28,18 @@ def получение_ссылки_на_хайрез(lst): #сюда скарм
         if elem.get("type") == "photo": #если вложение имеет тип данных == фото, то
             photo = elem.get("photo", {}) #пиздим с вложения инфу по ключу "фото"
             sizes = photo.get("sizes", []) #из спижженного выковыриваем размеры пикч по ключу "sizes"
-            for size in sizes: #среди всех размеров ищем самый большой
-                if size.get("type") == "w": #который обозначается типом дубль-вэ
-                    urls.append(size.get("url")) #берём ссылку на жепег
+            for size in reversed(sizes): #среди всех размеров ищем самый большой, начиная с конца
+                if size.get("type") == "w": 
+                    urls.append(size.get("url")) #который обозначается типом дубль-вэ
+                    break
+                elif size.get("type") == "z": #если нет хайреза, то берём поменьше
+                    urls.append(size.get("url")) 
+                    break
+                elif size.get("type") == "y": 
+                    urls.append(size.get("url")) #если нет и его, то берём ещё меньше
+                    break
+                elif size.get("type") == "x": 
+                    urls.append(size.get("url")) #если нет ничего вышеперечисленного, то берём что остаётся
     if len(urls) == 1: return urls[0] #если только одна хайрез-картинка, то возвращаем строку
     elif len(urls) > 1: return urls #если больше, то возвращается список ссылок
     else: return None #если нихуя не найдено, то выдаст "None"
