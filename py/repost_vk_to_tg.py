@@ -42,6 +42,7 @@ def main():
     upl = получение_ссылки_на_хайрез(j["response"]["items"][0]["attachments"]) #ссылко
     vk_post_link = "https://vk.com/wall" + str(j["response"]["items"][0]["from_id"]) + "_" + str(j["response"]["items"][0]["id"]) #строка с ссылкой на пост ВК в конце сообщения в телеге
     tgtxt_full = j["response"]["items"][0]["text"] + "\n\n" + vk_post_link #берём текст с ВК и присираем ссылку на пост ВК
+    doublepost = False
     if len(tgtxt_full) > 1024: #подписи к фото, которые длиннее 1024 символов, нельзя (RTFM)
         tgtxt = vk_post_link #меняем текст подписи на ссылку на пост ВК
         doublepost = True #для разбиения на отдельные посты с текстом и картинкой
