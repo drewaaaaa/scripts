@@ -2,9 +2,11 @@
 #automatically adds poi-markers on map
 #requires enable-rcon=true in server.properties and set rcon.port with rcon.password; нужно вписать enable-rcon=true в server.properties и задать rcon.port и rcon.password там же
 
-import os, anvil, asyncio, time # pip install anvil-parser and AFTER pip install anvil-parser2; надо по очереди поставить anvil-parser, а после него anvil-parser2
+import os, anvil, asyncio # pip install anvil-parser and AFTER pip install anvil-parser2; надо по очереди поставить anvil-parser, а после него anvil-parser2
+import time as t
 from aiomcrcon import Client
 from pyhocon import ConfigFactory, HOCONConverter
+from datetime import datetime, date, time
 
 world_name = "world-1" # change it to your world name; впиши имя мира сюда
 world_path = os.path.join(os.getcwd(), world_name)
@@ -115,7 +117,8 @@ def bm_rld(command="bluemap reload light", host="localhost", port=11111, passwor
         await client.connect()
         try: response = await client.send_cmd(command)
         finally: await client.close()
-    return asyncio.run(run_command())
+    try: asyncio.run(run_command())
+    except Exception as e: print("Ошибка в bm_rld:", e)
 
 def uberfunction():
     files = update_file_list()
@@ -123,7 +126,7 @@ def uberfunction():
     signs_list_updater(signs, files)
     printor(signs_list)
     if len(files) > 0: bm_rld()
-    print(f"Обработано {len(files)} файлов.")
+    print(f"{datetime.now().strftime('%d.%m.%Y %X')} Обработано {len(files)} файлов.")
 
 def main_loop():
     file_list.clear()
@@ -133,10 +136,10 @@ def main_loop():
     signs_list_updater(signs, files)
     printor(signs_list)
     bm_rld()
-    time.sleep(20) #first run always long and heavy, so...; первый запуск обычно долгий и тяжёлый, так что 20 секунд на отдохнуть
+    t.sleep(20) #first run always long and heavy, so...; первый запуск обычно долгий и тяжёлый, так что 20 секунд на отдохнуть
     while True:
         uberfunction()
-        time.sleep(60)
+        t.sleep(60)
 
 if __name__ == "__main__":
     main_loop()
