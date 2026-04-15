@@ -7,8 +7,8 @@ class SimpleEmptyLatent:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "width": ("INT", {"default": 512, "min": 16, "max": 8192, "step": 8}),
-                "height": ("INT", {"default": 512, "min": 16, "max": 8192, "step": 8}),
+                "width": ("INT", {"default": 512, "min": 64, "max": 8192, "step": 64}),
+                "height": ("INT", {"default": 512, "min": 64, "max": 8192, "step": 64}),
                 "flip": ("BOOLEAN", {"default": False}),
             }
         }
